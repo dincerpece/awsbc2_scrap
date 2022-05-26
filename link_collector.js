@@ -1,8 +1,8 @@
 const request = require("request");
 const cheerio = require("cheerio");
+const mysql = require('mysql');
 const psl = require('psl');
- const regex = /https?:\/\/(www\.)?([-a-zA-Z\d@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b)([-a-zA-Z\d()@:%_+.~#?&/=]*)/;
-//const regex = /(https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b)([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+const regex = /https?:\/\/(www\.)?([-a-zA-Z\d@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b)([-a-zA-Z\d()@:%_+.~#?&/=]*)/;
 
 const filterList = [
     'wiktionary.org',
@@ -14,6 +14,35 @@ const filterList = [
     'archive.org',
     'google.com'
 ]
+
+let db_config = {
+    host: 'domain-db.cluster-cgg12lpoesft.eu-west-1.rds.amazonaws.com',
+    user: 'synan',
+    password: 'ZixiaoXrkozmKHJbtpK4',
+    port: '63306',
+    database: 'domain',
+};
+
+
+const push_data = function (domains) {
+    if (typeof domains == "undefined" || domains.length < 1) {
+        getDomains();
+        return;
+    }
+    const connection = mysql.createConnection(db_config);
+
+    for (let i=0;i<domains.length;i++) {
+        connection.query('INSERT INTO domain_table SET ?', {domain: domains[i]}, function (error, results, fields) {
+            if (error) throw error;
+            console.log(results.insertId);
+        });
+
+    }
+
+    getDomains();
+
+
+};
 
 const getDomains = function () {
     request('https://en.wikipedia.org/wiki/Special:Random', function (error, response, html) {
@@ -50,14 +79,16 @@ const getDomains = function () {
             // console.log($(link).attr('href'));
         });
 
-        console.log(domains);
-        getDomains();
+        push_data(domains)
+
 
 
 
 
     });
 };
+
+
 
 
 getDomains();
