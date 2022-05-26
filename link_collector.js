@@ -3,7 +3,7 @@ const cheerio = require("cheerio");
 const mysql = require('mysql');
 const psl = require('psl');
 const regex = /https?:\/\/(www\.)?([-a-zA-Z\d@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b)([-a-zA-Z\d()@:%_+.~#?&/=]*)/;
-
+const fs = require('fs');
 const filterList = [
     'wiktionary.org',
     'wikipedia.org',
@@ -24,20 +24,47 @@ let db_config = {
 };
 
 
+
+async function push_data2(domains) {
+    if (typeof domains == "undefined" || domains.length < 1) {
+        getDomains();
+        return false;
+    }
+
+    let now = Date.now().toString();
+
+    const file = fs.createWriteStream('./data/' + now + '.txt' );
+
+    file.on('error', (err) => {
+        console.log(err);
+
+    });
+
+    await domains.forEach((v) => {
+        file.write(v + '\n');
+    });
+
+    file.end();
+    return true;
+
+}
+
+
 const push_data = function (domains) {
     if (typeof domains == "undefined" || domains.length < 1) {
         getDomains();
         return;
     }
-    const connection = mysql.createConnection(db_config);
+
 
     for (let i=0;i<domains.length;i++) {
         connection.query('INSERT INTO domain_table SET ?', {domain: domains[i]}, function (error, results, fields) {
             if (error) throw error;
-            console.log(results.insertId);
+            console.log(domains[i]);
         });
 
     }
+
 
     getDomains();
 
@@ -76,10 +103,10 @@ const getDomains = function () {
             }
 
 
-            // console.log($(link).attr('href'));
+
         });
 
-        push_data(domains)
+        push_data2(domains).then(r => getDomains())
 
 
 
@@ -88,13 +115,4 @@ const getDomains = function () {
     });
 };
 
-
-
-
 getDomains();
-
-
-
-
-
-
