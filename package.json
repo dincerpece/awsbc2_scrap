@@ -2,5 +2,9 @@
   "name": "scrap",
   "version": "1.0.0",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.11",
+    "psl": "^1.8.0",
+    "request": "^2.88.2",
+    "validator": "^13.7.0"
   }
 }
