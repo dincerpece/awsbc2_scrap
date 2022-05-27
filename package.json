@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "dependencies": {
     "cheerio": "^1.0.0-rc.11",
+    "combine-files": "^1.1.8",
+    "dotenv": "^16.0.1",
     "mysql": "^2.18.1",
     "psl": "^1.8.0",
     "request": "^2.88.2",

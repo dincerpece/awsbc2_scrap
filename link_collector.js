@@ -1,9 +1,19 @@
 const request = require("request");
 const cheerio = require("cheerio");
-const mysql = require('mysql');
 const psl = require('psl');
-const regex = /https?:\/\/(www\.)?([-a-zA-Z\d@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b)([-a-zA-Z\d()@:%_+.~#?&/=]*)/;
+const regex = /https?:\/\/(www\.)?([-a-zA-Z\d@:%._+~#=]{1,256}\.[a-zA-Z\d()]{1,6}\b)([-a-zA-Z\d()@:%_+.~#?&/=]*)/;
 const fs = require('fs');
+const path = require('path');
+const dataPath = path.join(__dirname, 'data/');
+const pushPath = path.join(__dirname, 'push/');
+const combineFiles = require('combine-files');
+
+require('dotenv').config();
+console.log(process.env.ID);
+
+let c = 0;
+
+
 const filterList = [
     'wiktionary.org',
     'wikipedia.org',
@@ -15,17 +25,8 @@ const filterList = [
     'google.com'
 ]
 
-let db_config = {
-    host: 'domain-db.cluster-cgg12lpoesft.eu-west-1.rds.amazonaws.com',
-    user: 'synan',
-    password: 'ZixiaoXrkozmKHJbtpK4',
-    port: '63306',
-    database: 'domain',
-};
 
-
-
-async function push_data2(domains) {
+async function push_data(domains) {
     if (typeof domains == "undefined" || domains.length < 1) {
         getDomains();
         return false;
@@ -33,7 +34,8 @@ async function push_data2(domains) {
 
     let now = Date.now().toString();
 
-    const file = fs.createWriteStream('./data/' + now + '.txt' );
+    const file = fs.createWriteStream(dataPath + now + '.txt' );
+
 
     file.on('error', (err) => {
         console.log(err);
@@ -50,30 +52,45 @@ async function push_data2(domains) {
 }
 
 
-const push_data = function (domains) {
-    if (typeof domains == "undefined" || domains.length < 1) {
-        getDomains();
-        return;
-    }
+function garbageCollector () {
+    fs.readdir(dataPath,  async function (err, files) {
+
+        console.log('gargabe collector started');
 
 
-    for (let i=0;i<domains.length;i++) {
-        connection.query('INSERT INTO domain_table SET ?', {domain: domains[i]}, function (error, results, fields) {
-            if (error) throw error;
-            console.log(domains[i]);
+        let files_map = files.map(x => (dataPath + x).toString());
+
+        if (err) {
+            return console.log('Unable to scan directory: ' + err);
+        }
+        let now = Date.now().toString();
+
+        let pushFile = pushPath + now + '.txt';
+
+
+        combineFiles(files_map, pushFile);
+
+        await files_map.forEach(function (deleteFilePath) {
+            try {
+                fs.unlinkSync(deleteFilePath);
+
+            } catch (err) {
+                console.error(err);
+            }
         });
 
-    }
+
+        return true;
 
 
-    getDomains();
-
+    });
 
 };
 
+
 const getDomains = function () {
     request('https://en.wikipedia.org/wiki/Special:Random', function (error, response, html) {
-
+         c++;
 
         if (error || response.statusCode !== 200) {
             return false;
@@ -106,7 +123,18 @@ const getDomains = function () {
 
         });
 
-        push_data2(domains).then(r => getDomains())
+        push_data(domains).then( function (){
+                if (c % 100 === 0 ) {
+                    garbageCollector();
+
+                        getDomains();
+
+                }else {
+
+                    getDomains();
+                }
+        }
+        );
 
 
 
@@ -115,4 +143,4 @@ const getDomains = function () {
     });
 };
 
-getDomains();
+// getDomains();
