@@ -1,0 +1,16 @@
+tropicos.org
+usda.gov
+biodiversitylibrary.org
+pnwflowers.com
+halleyhosting.com
+eppo.int
+gbif.org
+inaturalist.org
+ipni.org
+irmng.org
+itis.gov
+nih.gov
+theplantlist.org
+kew.org
+canadensys.net
+worldfloraonline.org
