@@ -1,7 +1,0 @@
-insee.fr
-data.gouv.fr
-culture.gouv.fr
-viaf.org
-worldcat.org
-bnf.fr
-loc.gov
