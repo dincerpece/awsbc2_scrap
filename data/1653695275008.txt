@@ -1,0 +1,17 @@
+calflora.org
+berkeley.edu
+usda.gov
+efloras.org
+natureserve.org
+eol.org
+gbif.org
+inaturalist.org
+ipni.org
+itis.gov
+theplantlist.org
+kew.org
+speciesplus.net
+tropicos.org
+worldfloraonline.org
+cnps.org
+irmng.org
