@@ -31,24 +31,7 @@ function uploadFile2(pushFilePath,pushFileName) {
     return s3.upload(uploadParams).promise();
 }
 
-const uploadFile = (pushFilePath,pushFileName) => {
-    // Read content from the file
-    let fileContent = fs.readFileSync(pushFilePath);
 
-    // Setting up S3 upload parameter
-
-    // Uploading files to the bucket
-    s3.upload({
-        Bucket: 'awsbc1-domain-bucket',
-        Key: 'raw/' + pushFileName,
-        Body: fileContent
-    }, function(err, data) {
-        if (err) {
-            throw err;
-        }
-        console.log(`File uploaded successfully. ${data.Location}`);
-    });
-};
 
 
 
@@ -155,8 +138,7 @@ const getDomains = function () {
 
 
             if ((m = regex.exec($(link).attr('href'))) !== null) {
-                // The result can be accessed through the `m`-variable.
-                // console.log(m[2]);
+
 
                 let parsed = psl.parse(m[2]);
 
