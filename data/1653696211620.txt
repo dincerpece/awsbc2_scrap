@@ -1,7 +1,0 @@
-taxapad.com
-biodiversitylibrary.org
-doi.org
-eol.org
-gbif.org
-irmng.org
-nhm.ac.uk

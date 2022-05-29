@@ -136,7 +136,7 @@ const getDomains = function () {
 
             if ((m = regex.exec($(link).attr('href'))) !== null) {
 
-
+                console.log(m)
                 let parsed = psl.parse(m[2]);
 
 
