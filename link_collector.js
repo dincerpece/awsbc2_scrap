@@ -20,7 +20,7 @@ const s3 = new AWS.S3({
 function uploadFile2(pushFilePath,pushFileName) {
     const fileStream = fs.createReadStream(pushFilePath);
     const uploadParams = {
-        Bucket: 'awsbc1-domain-bucket',
+        Bucket: process.env.bucket,
         Body: fileStream,
         Key: 'raw/' + pushFileName,
     };
