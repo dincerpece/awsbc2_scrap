@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/scrap.iml" filepath="$PROJECT_DIR$/.idea/scrap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/awsbc1_scrap.iml" filepath="$PROJECT_DIR$/.idea/awsbc1_scrap.iml" />
     </modules>
   </component>
 </project>
