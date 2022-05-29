@@ -1,0 +1,6 @@
+deepl.com
+insee.fr
+data.gouv.fr
+viaf.org
+worldcat.org
+bnf.fr
