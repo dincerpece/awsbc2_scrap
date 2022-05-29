@@ -24,8 +24,7 @@ function uploadFile2(pushFilePath,pushFileName) {
         Body: fileStream,
         Key: 'raw/' + pushFileName,
     };
-    console.log(process.env.AKID);
-    console.log(process.env.SAC);
+
     return s3.upload(uploadParams).promise();
 }
 
