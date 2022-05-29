@@ -168,10 +168,6 @@ const getDomains = function () {
         }
         );
 
-
-
-
-
     });
 };
 
