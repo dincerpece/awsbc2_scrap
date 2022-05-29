@@ -68,13 +68,13 @@ const bulk_insert = function (data) {
     })
 
 };
-
-
-setInterval( function () {
-
-    connection.end(function(err) {
-        console.log("The connection is terminated now");
-        run();
-    });
-
-},60000);
+run();
+//
+// setInterval( function () {
+//
+//     connection.end(function(err) {
+//         console.log("The connection is terminated now");
+//         run();
+//     });
+//
+// },60000);
