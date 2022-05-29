@@ -10,8 +10,6 @@ const pushPath = path.join(__dirname, 'push/');
 const combineFiles = require('combine-files');
 
 require('dotenv').config();
-console.log(process.env.AKID);
-console.log(process.env.SAC);
 
 const s3 = new AWS.S3({
     accessKeyId: process.env.AKID,
