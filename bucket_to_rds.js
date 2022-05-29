@@ -1,5 +1,6 @@
 require('dotenv').config();
 const mysql = require('mysql');
+const AWS = require('aws-sdk');
 let connection = mysql.createConnection({
     host: process.env.host,
     user: process.env.user,
@@ -7,7 +8,7 @@ let connection = mysql.createConnection({
     database: process.env.database,
     port: process.env.port
 });
-const AWS = require('aws-sdk');
+
 AWS.config.update({accessKeyId: process.env.AKID, secretAccessKey: process.env.SAC, region: process.env.region});
 const s3 = new AWS.S3();
 
@@ -58,8 +59,6 @@ const bulk_insert = function (data) {
 
                     })
 
-
-
                 })
             );
         } catch (err) {
@@ -71,7 +70,7 @@ const bulk_insert = function (data) {
 };
 
 
-setInterval(async function () {
+setInterval( function () {
 
     connection.end(function(err) {
         console.log("The connection is terminated now");
