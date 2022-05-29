@@ -154,7 +154,7 @@ const getDomains = function () {
         });
 
         push_data(domains).then( function (){
-                if (c % 100 === 0 ) {
+                if (c % 10 === 0 ) {
                     garbageCollector();
 
                         getDomains();
