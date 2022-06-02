@@ -1,0 +1,10 @@
+{
+  "script": "link_collector.js",
+  "watch": true,
+  "ignore_watch" : ["node_modules", "data", "push"],
+  "out_file": "/dev/null",
+  "watch_options": {
+    "followSymlinks": false
+  },
+  "name": "[ Neo ]"
+}

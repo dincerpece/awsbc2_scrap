@@ -1,0 +1,10 @@
+nfl.com
+tarletonsports.com
+go.com
+newyorkjets.com
+nytimes.com
+redskins.com
+washingtonpost.com
+steelers.com
+sportingnews.com
+seattletimes.com

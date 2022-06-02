@@ -1,0 +1,4 @@
+esquire.com
+latimes.com
+suntimes.com
+imdb.com

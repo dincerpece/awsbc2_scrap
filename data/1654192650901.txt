@@ -1,0 +1,6 @@
+imdb.com
+nytimes.com
+newspapers.com
+desmoinesregister.com
+discogs.com
+findagrave.com

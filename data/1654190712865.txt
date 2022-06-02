@@ -1,0 +1,6 @@
+newspapers.com
+jsonline.com
+cbsnews.com
+politico.com
+nationalreview.com
+nytimes.com

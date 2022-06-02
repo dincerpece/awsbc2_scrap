@@ -136,7 +136,7 @@ const getDomains = function () {
 
             if ((m = regex.exec($(link).attr('href'))) !== null) {
 
-                console.log(m)
+                // console.log(m)
                 let parsed = psl.parse(m[2]);
 
 
@@ -154,7 +154,7 @@ const getDomains = function () {
 
         push_data(domains).then( function (){
                 if (c % 10 === 0 ) {
-                    garbageCollector();
+                     garbageCollector();
 
                         getDomains();
 

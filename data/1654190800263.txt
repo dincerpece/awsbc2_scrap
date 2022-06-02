@@ -1,0 +1,8 @@
+statsdirect.com
+stata.com
+tandfonline.com
+researchgate.net
+springer.com
+sagepub.com
+fharrell.com
+github.com

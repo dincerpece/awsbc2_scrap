@@ -1,0 +1,10 @@
+java.net
+redhat.com
+drdobbs.com
+fasterj.com
+stackoverflow.com
+jaxenter.com
+oracle.com
+ibm.com
+infoq.com
+safaribooksonline.com

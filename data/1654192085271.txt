@@ -1,0 +1,8 @@
+allmusic.com
+billboard.com
+newsbank.com
+australian-charts.com
+swedishcharts.com
+swisscharts.com
+officialcharts.com
+discogs.com

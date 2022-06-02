@@ -1,0 +1,8 @@
+wsj.com
+nypost.com
+bizjournals.com
+businesswire.com
+eetimes.com
+idt.com
+aquantia.com
+globenewswire.com

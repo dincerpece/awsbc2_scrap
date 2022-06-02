@@ -1,0 +1,7 @@
+oreilly.com
+objectmentor.com
+aspiringcraftsman.com
+medium.com
+martinfowler.com
+sebaslab.com
+cleancoder.com

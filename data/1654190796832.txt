@@ -1,0 +1,9 @@
+time.com
+timeout.com
+bloomberg.com
+shakespeareandcompany.com
+nytimes.com
+theguardian.com
+latimes.com
+flickr.com
+imdb.com
