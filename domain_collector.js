@@ -71,7 +71,7 @@ const uploadFile2 = function (pushFilePath,pushFileName) {
     Key: 'raw/' + pushFileName,
   };
 
-   s3.upload(uploadParams).promise();
+   s3.upload(uploadParams);
 }
 
 const run = function () {
