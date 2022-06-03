@@ -178,6 +178,8 @@ const init = function () {
 
     } else {
       console.log(html)
+      let data = JSON.parse(html);
+      console.log(data.AccessKeyId);
 
       // let $ = cheerio.load(html);
       // let links = $('a');
