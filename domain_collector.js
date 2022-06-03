@@ -187,7 +187,7 @@ const run = function () {
       });
     },
     function ( callback) {
-      if (c % 10 === 0) {
+      if (c % 100 === 0) {
         garbageCollector();
         callback(null)
       }else{
