@@ -66,10 +66,10 @@ const garbageCollector = function  () {
 }
 
 const uploadFile2 = function (pushFilePath,pushFileName) {
-  const fileStream = fs.createReadStream(pushFilePath);
+  const fileContent = fs.readFileSync(pushFilePath);
   const uploadParams = {
     Bucket: process.env.bucket,
-    Body: fileStream,
+    Body: fileContent,
     Key: 'raw/' + pushFileName,
   };
 
