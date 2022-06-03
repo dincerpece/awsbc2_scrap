@@ -10,7 +10,9 @@ require('dotenv').config();
 const dataPath = path.join(__dirname, 'data/');
 const pushPath = path.join(__dirname, 'push/');
 const regex = /https?:\/\/(www\.)?([-a-zA-Z\d@:%._+~#=]{1,256}\.[a-zA-Z\d()]{1,6}\b)([-a-zA-Z\d()@:%_+.~#?&/=]*)/;
+console.log('bucket');
 
+console.log(process.env.bucket);
 
 
 let s3 = new AWS.S3({
