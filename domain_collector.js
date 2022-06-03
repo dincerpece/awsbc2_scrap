@@ -149,7 +149,7 @@ const run = function () {
       });
     },
     function ( callback) {
-      if (c % 100 === 0) {
+      if (c % 10 === 0) {
         garbageCollector();
         callback(null)
       }else{
