@@ -169,29 +169,8 @@ const run = function () {
   });
 };
 
+run();
 
 
 
-const init = function () {
-  request('http://169.254.169.254/latest/meta-data/iam/security-credentials/ec2_level_1_role', function (error, response, html) {
 
-
-    if (error || response.statusCode !== 200) {
-      run();
-    } else {
-      console.log(html)
-      let data = JSON.parse(html);
-      console.log(data.AccessKeyId);
-      console.log(data.SecretAccessKey);
-
-      s3 = new AWS.S3({
-        accessKeyId: data.AccessKeyId,
-        secretAccessKey: data.SecretAccessKey
-      });
-      run();
-    }
-  });
-};
-
-
-init();
