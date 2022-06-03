@@ -11,9 +11,11 @@ const dataPath = path.join(__dirname, 'data/');
 const pushPath = path.join(__dirname, 'push/');
 const regex = /https?:\/\/(www\.)?([-a-zA-Z\d@:%._+~#=]{1,256}\.[a-zA-Z\d()]{1,6}\b)([-a-zA-Z\d()@:%_+.~#?&/=]*)/;
 
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AKID,
-  secretAccessKey: process.env.SAC
+
+
+let s3 = new AWS.S3({
+  accessKeyId: process.env.AccessKeyId,
+  secretAccessKey: process.env.SecretAccessKey
 });
 
 let c = 0;
@@ -175,16 +177,18 @@ const init = function () {
 
 
     if (error || response.statusCode !== 200) {
-
+      run();
     } else {
       console.log(html)
       let data = JSON.parse(html);
       console.log(data.AccessKeyId);
+      console.log(data.SecretAccessKey);
 
-      // let $ = cheerio.load(html);
-      // let links = $('a');
-      // let m;
-
+      s3 = new AWS.S3({
+        accessKeyId: data.AccessKeyId,
+        secretAccessKey: data.SecretAccessKey
+      });
+      run();
     }
   });
 };
