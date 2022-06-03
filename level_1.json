@@ -6,5 +6,6 @@
   "watch_options": {
     "followSymlinks": false
   },
-  "name": "domain_collector"
+  "name": "domain_collector",
+  "args": "--no-daemon"
 }
