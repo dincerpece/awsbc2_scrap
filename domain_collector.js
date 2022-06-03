@@ -79,22 +79,35 @@ const garbageCollector = function  () {
 
 const uploadFile = (pushFilePath,fileName) => {
   // Read content from the file
-  const fileContent = fs.readFileSync(pushFilePath);
+
+  fs.readFile(pushFilePath,
+    {encoding:'utf8', flag:'r'},
+    function(err, data) {
+      if(err){
+        console.log(err);
+      }
+
+      else{
+        const params = {
+          Bucket: process.env.bucket,
+          Key: 'raw/' + fileName, // File name you want to save as in S3
+          Body: data
+        };
+
+        // Uploading files to the bucket
+        s3.upload(params, function(err, data) {
+          if (err) {
+            throw err;
+          }
+          console.log(`File uploaded successfully. ${data.Location}`);
+        });
+      }
+
+    });
+
 
   // Setting up S3 upload parameters
-  const params = {
-    Bucket: process.env.bucket,
-    Key: 'raw/' + fileName, // File name you want to save as in S3
-    Body: fileContent
-  };
 
-  // Uploading files to the bucket
-  s3.upload(params, function(err, data) {
-    if (err) {
-      throw err;
-    }
-    console.log(`File uploaded successfully. ${data.Location}`);
-  });
 };
 
 
