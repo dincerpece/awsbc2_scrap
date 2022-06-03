@@ -29,10 +29,6 @@ const run = function (){
 
 
 const bulk_insert = function (data) {
-    connection.connect(async function (err) {
-        if (err) {
-            console.log(err)
-        }
 
         const bucketName = 'awsbc1-domain';
         const folderToMove = 'raw/';
@@ -40,41 +36,36 @@ const bulk_insert = function (data) {
         try {
 
 
-            await Promise.all(
-                data.Contents.map(async (fileInfo) => {
-                    let sql = "LOAD DATA FROM S3 's3://awsbc1-domain/" + fileInfo.Key + "' INTO TABLE domain.domain_table FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (domain);";
-                    await connection.query(sql, async function (err, result) {
+            Promise.all(
+              data.Contents.map(async (fileInfo) => {
+                  let sql = "LOAD DATA FROM S3 's3://awsbc1-domain/" + fileInfo.Key + "' INTO TABLE domain_mining.domain_table FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (domain);";
+                  await connection.query(sql, async function (err, result) {
 
-                        await s3.copyObject({
-                            Bucket: bucketName,
-                            CopySource: `${bucketName}/${fileInfo.Key}`,
-                            Key: `${destinationFolder}${fileInfo.Key.replace(folderToMove, '')}`,
-                        }).promise();
+                      await s3.copyObject({
+                          Bucket: bucketName,
+                          CopySource: `${bucketName}/${fileInfo.Key}`,
+                          Key: `${destinationFolder}${fileInfo.Key.replace(folderToMove, '')}`,
+                      }).promise();
 
-                        await s3.deleteObject({
-                            Bucket: bucketName,
-                            Key: fileInfo.Key,
-                        }).promise();
+                      await s3.deleteObject({
+                          Bucket: bucketName,
+                          Key: fileInfo.Key,
+                      }).promise();
 
 
-                    })
+                  })
 
-                })
-            );
-        } catch (err) {
+              })
+            ).then(r =>  r );
+        }  catch (err) {
             console.error(err); // error handling
         }
-
-    })
-
 };
-run();
-//
-// setInterval( function () {
-//
-//     connection.end(function(err) {
-//         console.log("The connection is terminated now");
-//         run();
-//     });
-//
-// },60000);
+
+
+setInterval( function () {
+
+        run();
+
+
+},60000);
