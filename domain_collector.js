@@ -168,7 +168,7 @@ const run = function () {
 };
 
 
-init();
+
 
 const init = function () {
   request('http://169.254.169.254/latest/meta-data/iam/security-credentials/ec2_level_1_role', function (error, response, html) {
@@ -188,3 +188,4 @@ const init = function () {
 };
 
 
+init();
