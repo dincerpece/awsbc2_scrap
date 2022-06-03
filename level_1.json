@@ -1,10 +1,10 @@
 {
-  "script": "domain_collector.js",
+  "script": "/home/ec2-user/awsbc1_scrap/domain_collector.js",
   "watch": true,
   "ignore_watch" : ["node_modules", "data", "push"],
   "out_file": "/dev/null",
   "watch_options": {
     "followSymlinks": false
   },
-  "name": "[ domain_collector ]"
+  "name": "domain_collector"
 }
