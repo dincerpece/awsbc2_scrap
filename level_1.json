@@ -3,7 +3,7 @@
     {
       "name": "domain_collector",
       "script": "/home/ec2-user/awsbc1_scrap/domain_collector.js",
-      "cwd": "/home/ec2-user/awsbc1_scrap/",
+      "cwd": "/home/ec2-user/awsbc1_scrap",
       "instances": 2,
       "exec_mode": "cluster",
       "watch": true,
