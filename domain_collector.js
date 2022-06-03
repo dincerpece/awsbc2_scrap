@@ -65,16 +65,16 @@ const garbageCollector = function  () {
 
 }
 
-const uploadFile2 = function (pushFilePath,pushFileName) {
-  const fileContent = fs.readFileSync(pushFilePath);
-  const uploadParams = {
-    Bucket: process.env.bucket,
-    Body: fileContent,
-    Key: 'raw/' + pushFileName,
-  };
-
-
-}
+// const uploadFile2 = function (pushFilePath,pushFileName) {
+//   const fileContent = fs.readFileSync(pushFilePath);
+//   const uploadParams = {
+//     Bucket: process.env.bucket,
+//     Body: fileContent,
+//     Key: 'raw/' + pushFileName,
+//   };
+//
+//
+// }
 
 
 const uploadFile = (pushFilePath,fileName) => {
@@ -83,7 +83,7 @@ const uploadFile = (pushFilePath,fileName) => {
 
   // Setting up S3 upload parameters
   const params = {
-    Bucket: 'awsbc1-domain',
+    Bucket: process.env.bucket,
     Key: 'raw/' + fileName, // File name you want to save as in S3
     Body: fileContent
   };
