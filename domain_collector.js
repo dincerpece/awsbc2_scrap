@@ -9,8 +9,12 @@ const combineFiles = require('combine-files');
 require('dotenv').config();
 const dataPath = path.join(__dirname, 'data/');
 const pushPath = path.join(__dirname, 'push/');
-
 const regex = /https?:\/\/(www\.)?([-a-zA-Z\d@:%._+~#=]{1,256}\.[a-zA-Z\d()]{1,6}\b)([-a-zA-Z\d()@:%_+.~#?&/=]*)/;
+
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AKID,
+  secretAccessKey: process.env.SAC
+});
 
 let c = 0;
 const filterList = [
@@ -19,51 +23,99 @@ const filterList = [
 
 const tld_list = ['com', 'net'];
 
+const garbageCollector = function  () {
+  fs.readdir(dataPath,   async function (err, files) {
+
+    console.log('garbage collector started');
+
+
+    let files_map = files.map(x => (dataPath + x).toString());
+
+    if (err) {
+      return console.log('Unable to scan directory: ' + err);
+    }
+    let now = Date.now().toString();
+    let pushFileName = now + '.txt'
+
+    let pushFilePath = pushPath + now + '.txt';
+
+
+    combineFiles(files_map, pushFilePath);
+
+    await files_map.forEach(function (deleteFilePath) {
+      try {
+        fs.unlinkSync(deleteFilePath);
+
+      } catch (err) {
+        console.error(err);
+      }
+    });
+
+
+    await uploadFile2(pushFilePath, pushFileName);
+
+
+
+
+  });
+
+}
+
+const uploadFile2 = function (pushFilePath,pushFileName) {
+  const fileStream = fs.createReadStream(pushFilePath);
+  const uploadParams = {
+    Bucket: process.env.bucket,
+    Body: fileStream,
+    Key: 'raw/' + pushFileName,
+  };
+
+   s3.upload(uploadParams).promise();
+}
+
 const run = function () {
   async.waterfall([
     function (callback) {
       let domains = [];
       request('https://en.wikipedia.org/wiki/Special:Random', function (error, response, html) {
         c++;
+        console.log(c);
+
 
         if (error || response.statusCode !== 200) {
-          callback(null, null);
-        }
+          callback(error, null);
+        } else {
 
-        let $ = cheerio.load(html);
-        let links = $('a');
+          let $ = cheerio.load(html);
+          let links = $('a');
+          let m;
 
-        let m;
+          $(links).each(function (i, link) {
+            if ((m = regex.exec($(link).attr('href'))) !== null) {
 
+              // console.log(m[2])
+              let parsed = psl.parse(m[2]); // pahalli_islem
 
-
-        $(links).each(function (i, link) {
-          if ((m = regex.exec($(link).attr('href'))) !== null) {
-
-            // console.log(m[2])
-            let parsed = psl.parse(m[2]); // pahalli_islem
-
-            if (parsed.domain
-              && !domains.includes(parsed.domain)
-              && !filterList.includes(parsed.domain)) {
-              if (tld_list.includes(parsed.tld)) {
-                domains = domains.concat(parsed.domain);
+              if (parsed.domain
+                && !domains.includes(parsed.domain)
+                && !filterList.includes(parsed.domain)) {
+                if (tld_list.includes(parsed.tld)) {
+                  domains = domains.concat(parsed.domain);
+                }
               }
             }
-          }
-        });
+          });
 
-        callback(null,domains);
+          callback(null, domains);
+        }
       });
-
-
 
     },
     function (domains, callback) {
+      console.log('domains');
       console.log(domains);
       if (typeof domains == "undefined" || domains.length < 1) {
         callback('no domain', null);
-      }else{
+      } else {
         callback(null, domains);
       }
 
@@ -72,93 +124,67 @@ const run = function () {
     function (domains, callback) {
       let now = Date.now().toString();
 
-      const file = fs.createWriteStream(dataPath + now + '.txt' );
+      const file = fs.createWriteStream(dataPath + now + '.txt');
 
       callback(null, file,domains);
+
+
     },
     function (file, domains, callback) {
       console.log('function 3')
 
-      let now = Date.now().toString();
-
-
-      // file.on('error', (err) => {
-      //   console.log(err);
-      //   callback(err, 'done');
-      // });
-
       domains.forEach((v) => {
         file.write(v + '\n');
       });
-      // file.on('end', function() {
-      //   console.log("EOF");
-      // });
+      callback(null, file)
+    },
 
-      file.on('error', function(err) {
-        console.log("ERRORRRRRRRRRRRRRRRRRRRRRRRR:" + err);
-        callback(err, null);
-
-
-      });
-      file.on('finish', function() {
-        console.log('onFinish');
-       
-      })
-
-      file.on('close', function() {
+    function (file, callback) {
+      file.close();
+      file.on('close', function () {
         console.log("CLOSE");
-        callback(null, null)
+        callback(null)
       });
-
-      // file.on("error", function(err) {
-      //   console.log('err callbackkkkkkkkkkkkkkkkkkkkkkkkk');
-      //
-      //   callback(err, null);
-      // });
-      //   file.on("open", function() {
-      //     console.log('file_on_finish hehehe')
-      //     file.close(() => {
-      //       console.log('close hehehe')
-      //       callback(null, file);
-      //     });
-      //   });
-
-
-
-      //callback(null, file);
     },
-    function ( file,callback) {
+    function ( callback) {
+      if (c % 100 === 0) {
+        garbageCollector();
+        callback(null)
+      }else{
+        callback(null)
+      }
 
-      // file.end();
-      console.log('function 4')
-      callback(null, 'done');
-    },
-    function (arg1, callback) {
-      // arg1 now equals 'three'
-      // console.log('function 5')
-      callback(null, 'done');
-    },
-    function (arg1, callback) {
-      // arg1 now equals 'three'
-      // console.log('function 6')
-      callback(null, 'done');
     }
   ], function (err, result) {
-    if(err) {
+    if (err) {
+
       console.log(err + ', error :( ');
+
       run();
-    }else{
+    } else {
       run();
     }
-
-
   });
 };
 
 
+init();
 
-run();
+const init = function () {
+  request('http://169.254.169.254/latest/meta-data/iam/security-credentials/ec2_level_1_role', function (error, response, html) {
 
 
+    if (error || response.statusCode !== 200) {
+
+    } else {
+      console.log(html)
+
+      // let $ = cheerio.load(html);
+      // let links = $('a');
+      // let m;
+
+    }
+  });
+};
 
 
