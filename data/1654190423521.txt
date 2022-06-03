@@ -1,3 +1,0 @@
-cnn.com
-cityweekly.net
-imdb.com

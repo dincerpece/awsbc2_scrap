@@ -1,3 +1,0 @@
-springer.com
-schoolofhaskell.com
-wordpress.com

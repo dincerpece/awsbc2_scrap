@@ -1,2 +1,5 @@
 /node_modules/
 /.idea
+/domain_collector_local.js
+/data
+/push
