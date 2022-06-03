@@ -6,9 +6,5 @@
   "watch_options": {
     "followSymlinks": false
   },
-  "name": "domain_collector",
-  "args": "--no-daemon",
-  "env": {
-    "PM2_SERVE_PATH": "/home/ec2-user/awsbc1_scrap"
-  }
+  "name": "domain_collector"
 }
