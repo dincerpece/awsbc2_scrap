@@ -9,7 +9,7 @@ let connection = mysql.createConnection({
     port: process.env.port
 });
 
-AWS.config.update({accessKeyId: process.env.AKID, secretAccessKey: process.env.SAC, region: process.env.region});
+AWS.config.update({accessKeyId: process.env.AccessKeyId, secretAccessKey: process.env.SecretAccessKey, region: process.env.region});
 const s3 = new AWS.S3();
 
 let params = {
@@ -34,8 +34,6 @@ const bulk_insert = function (data) {
         const folderToMove = 'raw/';
         const destinationFolder = 'finished/';
         try {
-
-
             Promise.all(
               data.Contents.map(async (fileInfo) => {
                   let sql = "LOAD DATA FROM S3 's3://awsbc1-domain/" + fileInfo.Key + "' INTO TABLE domain_mining.domain_table FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (domain);";
@@ -51,8 +49,6 @@ const bulk_insert = function (data) {
                           Bucket: bucketName,
                           Key: fileInfo.Key,
                       }).promise();
-
-
                   })
 
               })
@@ -64,8 +60,5 @@ const bulk_insert = function (data) {
 
 
 setInterval( function () {
-
-        run();
-
-
+    run();
 },60000);

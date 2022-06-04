@@ -1,10 +1,18 @@
 {
-  "script": "domain_collector.js",
-  "watch": true,
-  "ignore_watch" : ["node_modules", "data", "push"],
-  "out_file": "/dev/null",
-  "watch_options": {
-    "followSymlinks": false
-  },
-  "name": "[ domain_collector ]"
+  "apps": [
+    {
+      "name": "bucket_to_rds",
+      "script": "/home/ec2-user/awsbc1_scrap/bucket_to_rds.js",
+      "cwd": "/home/ec2-user/awsbc1_scrap",
+      "instances": 1,
+      "exec_mode": "cluster",
+      "watch": true,
+      "ignore_watch": [
+        "node_modules",
+        "data",
+        "push"
+      ]
+    }
+
+  ]
 }
