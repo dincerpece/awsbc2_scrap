@@ -62,3 +62,6 @@ const bulk_insert = function (data) {
 setInterval( function () {
     run();
 },60000);
+
+
+run();
