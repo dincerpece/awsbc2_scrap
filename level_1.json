@@ -2,8 +2,8 @@
   "apps": [
     {
       "name": "domain_collector",
-      "script": "/home/ec2-user/awsbc1_scrap/domain_collector.js",
-      "cwd": "/home/ec2-user/awsbc1_scrap",
+      "script": "/home/ec2-user/awsbc2_scrap/domain_collector.js",
+      "cwd": "/home/ec2-user/awsbc2_scrap",
       "instances": 1,
       "exec_mode": "cluster",
       "watch": true,
