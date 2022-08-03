@@ -12,7 +12,7 @@
       "ignore_watch": [
         "node_modules",
         "data",
-        "push",
+        "push"
       ]
     }
 
