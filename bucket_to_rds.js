@@ -13,7 +13,7 @@ AWS.config.update({accessKeyId: process.env.AccessKeyId, secretAccessKey: proces
 const s3 = new AWS.S3();
 
 let params = {
-    Bucket: 'last-new-bucket',
+    Bucket: 'awsbc2-scrap',
     Delimiter: '/',
     Prefix: 'raw/'
 }
@@ -30,13 +30,13 @@ const run = function (){
 
 const bulk_insert = function (data) {
 
-        const bucketName = 'last-new-bucket';
+        const bucketName = 'awsbc2-scrap';
         const folderToMove = 'raw/';
         const destinationFolder = 'finished/';
         try {
             Promise.all(
               data.Contents.map(async (fileInfo) => {
-                  let sql = "LOAD DATA FROM S3 's3://last-new-bucket/" + fileInfo.Key + "' INTO TABLE domain_mining.domain_table FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (domain);";
+                  let sql = "LOAD DATA FROM S3 's3://awsbc2-scrap/" + fileInfo.Key + "' INTO TABLE domain_mining.domain_table FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (domain);";
                   await connection.query(sql, async function (err, result) {
 
                       await s3.copyObject({
