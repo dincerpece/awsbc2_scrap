@@ -5,8 +5,8 @@
       "script": "/home/ec2-user/awsbc2_scrap/step_1.js",
       "cwd": "/home/ec2-user/awsbc2_scrap",
       "instances": 1,
-      "output": "/root/.pm2/logs/out.log",
-      "error": "/root/.pm2/logs/error.log",
+      "output": "~/.pm2/logs/out.log",
+      "error": "~/.pm2/logs/error.log",
       "exec_mode": "cluster",
       "watch": true,
       "ignore_watch": [
