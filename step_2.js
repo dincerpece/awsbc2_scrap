@@ -36,7 +36,7 @@ const bulk_insert = function (data) {
         try {
             Promise.all(
               data.Contents.map(async (fileInfo) => {
-                  let sql = "LOAD DATA FROM S3 's3://awsbc2-scrap/" + fileInfo.Key + "' INTO TABLE domain_mining.domain_table FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (domain);";
+                  let sql = "LOAD DATA FROM S3 's3://awsbc2-scrap/" + fileInfo.Key + "' INTO TABLE domains.domains_table FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (domain);";
                   await connection.query(sql, async function (err, result) {
 
                       await s3.copyObject({
