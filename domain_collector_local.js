@@ -14,8 +14,8 @@ const regex = /https?:\/\/(www\.)?([-a-zA-Z\d@:%._+~#=]{1,256}\.[a-zA-Z\d()]{1,6
 
 
 let s3 = new AWS.S3({
-  accessKeyId: 'AKIAQZY3J4S4GOIV56FO',
-  secretAccessKey: '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'
+  accessKeyId: process.env.AccessKeyId,
+  secretAccessKey: process.env.SecretAccessKey
 });
 
 let c = 0;
