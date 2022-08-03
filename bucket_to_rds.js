@@ -13,7 +13,7 @@ AWS.config.update({accessKeyId: process.env.AccessKeyId, secretAccessKey: proces
 const s3 = new AWS.S3();
 
 let params = {
-    Bucket: 'awsbc1-domain',
+    Bucket: 'last-new-bucket',
     Delimiter: '/',
     Prefix: 'raw/'
 }
