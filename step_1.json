@@ -1,13 +1,12 @@
 {
   "apps": [
     {
-      "name": "domain_collector",
+      "name": "domain_collector_step1",
       "script": "/home/ec2-user/awsbc2_scrap/step_1.js",
       "cwd": "/home/ec2-user/awsbc2_scrap",
       "instances": 1,
       "exec_mode": "cluster",
       "watch": true,
-      "log": true,
       "ignore_watch": [
         "node_modules",
         "data",
