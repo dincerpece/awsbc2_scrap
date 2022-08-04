@@ -10,7 +10,7 @@ require('dotenv').config();
 const dataPath = path.join(__dirname, 'data/');
 const pushPath = path.join(__dirname, 'push/');
 const regex = /https?:\/\/(www\.)?([-a-zA-Z\d@:%._+~#=]{1,256}\.[a-zA-Z\d()]{1,6}\b)([-a-zA-Z\d()@:%_+.~#?&/=]*)/;
-console.log('bucket');
+// console.log('bucket');
 
 console.log(process.env.bucket);
 
@@ -172,7 +172,7 @@ const run = function () {
 
         },
         function (file, domains, callback) {
-            console.log('function 3')
+            // console.log('function 3')
 
             domains.forEach((v) => {
                 file.write(v + '\n');
