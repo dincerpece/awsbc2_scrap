@@ -11,14 +11,18 @@ const dataPath = path.join(__dirname, 'data/');
 const pushPath = path.join(__dirname, 'push/');
 const regex = /https?:\/\/(www\.)?([-a-zA-Z\d@:%._+~#=]{1,256}\.[a-zA-Z\d()]{1,6}\b)([-a-zA-Z\d()@:%_+.~#?&/=]*)/;
 console.log('bucket');
-
-console.log(process.env.bucket);
+let bucket_name = "awsbc2-scrap";
+console.log(bucket_name);
 
 
 let s3 = new AWS.S3({
     accessKeyId: process.env.AccessKeyId,
     secretAccessKey: process.env.SecretAccessKey
 });
+
+
+
+
 
 let c = 0;
 const filterList = [
@@ -56,7 +60,7 @@ const garbageCollector = function  () {
         });
 
 
-        await uploadFile(pushFilePath, pushFileName);
+         await uploadFile(pushFilePath, pushFileName);
 
 
 
@@ -90,7 +94,7 @@ const uploadFile = (pushFilePath,fileName) => {
 
             else{
                 const params = {
-                    Bucket: process.env.bucket,
+                    Bucket: bucket_name,
                     Key: 'raw/' + fileName, // File name you want to save as in S3
                     Body: data
                 };
@@ -188,7 +192,7 @@ const run = function () {
             });
         },
         function ( callback) {
-            if (c % 100 === 0) {
+            if (c % 10 === 0) {
                 garbageCollector();
                 callback(null)
             }else{
